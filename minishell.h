@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/23 12:55:08 by aelison          ###   ########.fr       */
+/*   Updated: 2024/09/02 10:26:11 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <termcap.h>
 # include <unistd.h>
 
 /*
@@ -101,11 +100,12 @@ typedef struct s_var
 }							t_var;
 
 int							ft_check_cmd(char *token);
-int							ft_verify_exec_cmd(char **paths);
 int							ft_export(t_var *var, char *to_add);
 int							ft_find_char(char *token, char to_find);
 int							ft_unset_envp(t_var *var, char *to_del);
+int							ft_count_quote(char *str, char *to_count);
 
+char						*ft_verify_exec_cmd(char **paths);
 char						*ft_pwd(void);
 char						*ft_strdup_shell(char *s);
 char						*ft_getvar(t_list *envp, char *var);
@@ -115,6 +115,7 @@ char						*ft_env_variable(t_list *envp, char *to_find);
 
 char						**ft_new_envp(t_list *env);
 char						**ft_get_all_path(t_list *env, char *line);
+char						**ft_split_shell(char const *s, char c);
 
 void						ft_exit(t_var *var, int end);
 void						ft_free_all(char **split);
@@ -123,15 +124,16 @@ void						ft_echo(t_list *env, char *to_print);
 void						ft_div_by_token(char *line, t_token **head);
 void						ft_create_envp(t_list **all_env, char **envp);
 void						ft_add_token(t_token **head, t_token *new_elem);
-void						ft_exec_sys_func(char *paths, char **cmd_list,
-								char **envp);
+void						ft_exec_sys_func(t_instru *instruction, t_var *var);
 
 /*========== Parsing =================*/
 void						ft_redirection(t_token *current, t_token *nxt);
 void						ft_parse_no_arg(t_token *current, t_token *nxt);
 void						ft_parse_arg(t_token *current, t_token *nxt);
 void						ft_parse(t_token *token, t_list *env);
-void						ft_parse_dollar(t_token *current, t_token *nxt);
+void						ft_parse_dollar(t_token *current, t_list *env);
+char						*ft_del_quote(char *word, char *quote);
+char						*ft_get_first_quote(char *str);
 
 t_token						*ft_create_token(char *token);
 
@@ -156,6 +158,16 @@ int							ft_valid_exit_util(char *token);
 void						ft_change_dollar_value(t_token *head, t_list *env);
 void						ft_cmd_validation(t_var *all);
 void						ft_change_argument(t_instru *instruction);
+
+/*=================== Execution =============================*/
+char	ft_first_quote(char *word, char first, char second);
+
+/*============= Token control ========================*/
+void	ft_move_nxt_to_head(t_token **head, t_token *target);
+void	ft_command_setup(t_token **head);
+
+/*================== Clear =======================*/
+void	ft_lstclear_instru(t_instru **instru, t_token **head);
 
 /*====================== Debug =========================*/
 void						ft_debug(t_var *var);

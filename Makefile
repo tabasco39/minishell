@@ -6,7 +6,7 @@
 #    By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/07 10:34:59 by aelison           #+#    #+#              #
-#    Updated: 2024/08/23 08:51:54 by aranaivo         ###   ########.fr        #
+#    Updated: 2024/08/29 15:47:05 by aelison          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,16 @@ SRC = ft_program.c \
 	  test_readline.c \
 	  debug.c \
 	  Utils/ft_utils.c \
+	  Utils/ft_clear.c \
+	  Utils/ft_utils_two.c \
 	  Utils/ft_handle_path.c \
 	  Execution/ft_exec_cmd.c \
 	  Execution/ft_executor.c \
 	  Env/ft_handle_envp.c \
 	  Env/ft_new_envp.c \
+	  Parsing/lexing/ft_token_control.c \
 	  Parsing/lexing/ft_lexing.c \
+	  Parsing/lexing/ft_utils.c \
 	  Parsing/lexing/ft_div_by_token.c \
 	  Parsing/parse/ft_parse.c \
 	  Parsing/parse/ft_parse_utils.c \
@@ -38,7 +42,7 @@ OBJ = $(SRC:.c=.o)
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 all: ${NAME}
 

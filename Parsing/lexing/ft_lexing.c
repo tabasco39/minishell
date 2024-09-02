@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:00:50 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/21 09:40:52 by aelison          ###   ########.fr       */
+/*   Updated: 2024/08/29 13:41:42 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ void	ft_add_token(t_token **head, t_token *new_elem)
 	t_token	*last;
 
 	if (*head == NULL)
-	{
 		*head = new_elem;
-		(*head)->is_head = 1;
-	}
 	else
 	{
 		last = *head;

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 09:12:09 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/08/23 10:50:34 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/02 09:58:59 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**ft_get_all_path(t_list *env, char *line)
 	return (paths_tab);
 }
 
-int	ft_verify_exec_cmd(char **paths)
+char	*ft_verify_exec_cmd(char **paths)
 {
 	int		i;
 	//char	*sl[3];
@@ -75,12 +75,12 @@ int	ft_verify_exec_cmd(char **paths)
 		if (access(paths[i], X_OK) == 0)
 		{
 			//ft_exec_sys_func(paths[i], sl, envp);
-			ft_free_all(paths);
-			return (1);
+			//ft_free_all(paths);
+			return (paths[i]);
 		}
 		i++;
 	}
 	printf("command not found\n");
 	ft_free_all(paths);
-	return (0);
+	return (NULL);
 }

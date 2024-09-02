@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_utils_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/27 06:41:50 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/27 06:41:54 by aelison          ###   ########.fr       */
+/*   Created: 2024/08/27 06:39:42 by aelison           #+#    #+#             */
+/*   Updated: 2024/08/27 06:42:28 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
 static void	free_all(char **result, unsigned int nb)
 {
@@ -38,6 +38,18 @@ static unsigned int	count_c(char const *p1, char c)
 	count = 1;
 	while (p1[i] != '\0')
 	{
+		if (p1[i] == 39)
+		{
+			i++;
+			while (p1[i] != 39)
+				i++;
+		}
+		else if (p1[i] == 34)
+		{
+			i++;
+			while (p1[i] != 34)
+				i++;
+		}
 		if (p1[i] == c && p1[i + 1] != c && p1[i + 1] != '\0')
 			count = count + 1;
 		i++;
@@ -82,6 +94,18 @@ static void	split_aux(char **result, char const *s, char c)
 		if (s[j] != c)
 		{
 			stock = j;
+			if (s[j] == 39)
+			{
+				j++;
+				while (s[j] != 39)
+					j++;
+			}
+			else if (s[j] == 34)
+			{
+				j++;
+				while (s[j] != 34)
+					j++;
+			}
 			while (s[j] != c && s[j] != '\0')
 				j = j + 1;
 			result[i] = cpy(s, stock, j);
@@ -96,7 +120,7 @@ static void	split_aux(char **result, char const *s, char c)
 	result[i] = NULL;
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_shell(char const *s, char c)
 {
 	char			**result;
 	unsigned int	len;

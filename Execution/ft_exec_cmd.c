@@ -6,27 +6,23 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 11:54:10 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/22 15:43:03 by aelison          ###   ########.fr       */
+/*   Updated: 2024/08/29 15:14:43 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_first_quote(char *word)
+char	ft_first_quote(char *word, char first, char second)
 {
 	int		i;
-	int		s_quote;
-	int		d_quote;
 
 	i = 0;
-	s_quote = 39;
-	d_quote = 34;
+	if (!word)
+		return (-1);
 	while (word[i] != '\0')
 	{
-		if (word[i] == (char)s_quote)
-			return (s_quote);
-		if (word[i] == (char)d_quote)
-			return (d_quote);
+		if (word[i] == first || word[i] == second)
+			return (word[i]);
 		i++;
 	}
 	return (-1);
@@ -39,10 +35,10 @@ void	ft_echo(t_list *env, char *to_print)
 	char	*tmp;
 
 	i = 0;
-	quote = ft_first_quote(to_print);
+	quote = ft_first_quote(to_print, 34, 39);
 	while (to_print[i] != '\0')
 	{
-		while (to_print[i] == (char)quote)
+		while (to_print[i] == quote)
 			i++;
 		if (to_print[i] == '$')
 		{
@@ -93,6 +89,6 @@ void	ft_exit(t_var *var, int end)
 	ft_lstclear(&var->env, free);
 	ft_free_all(var->tab_env);
 	free(var->line);
-	ft_putstr_fd("exit 💩\n", 1);
+	ft_putstr_fd("exit 💩\n", end);
 	exit(end);
 }

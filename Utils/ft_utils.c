@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:30:14 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/19 07:03:52 by aelison          ###   ########.fr       */
+/*   Updated: 2024/08/28 09:10:10 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_find_char(char *token, char to_find)
 	int	result;
 
 	result = 0;
-	if (!token)
+	if (!token || to_find == '\0')
 		return (-1);
 	while (token[result] != '\0')
 	{
@@ -72,34 +72,4 @@ char	*ft_strjoin_shell(char *first, char *second)
 	result[i + j] = '\0';
 	free(first);
 	return (result);
-}
-
-void	ft_lstclear_shell(t_token **head)
-{
-	t_token	*tmp;
-
-	while (*head)
-	{
-		tmp = *head;
-		(*head) = (*head)->next;
-		free(tmp->token);
-		free(tmp);
-	}
-	*head = NULL;
-}
-
-void	ft_free_all(char **split)
-{
-	int	i;
-
-	i = 0;
-	if (*split != NULL)
-	{
-		while (split[i])
-		{
-			free(split[i]);
-			i++;
-		}
-		free(split);
-	}
 }

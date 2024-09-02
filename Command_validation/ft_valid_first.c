@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 08:36:51 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/23 08:44:56 by aelison          ###   ########.fr       */
+/*   Updated: 2024/08/29 15:38:33 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,44 +19,18 @@ int	ft_valid_env(t_instru *current)
 	head = current->start;
 	if (head && head->command == env)
 	{
-		head = head->next;
-		if (head)
-		{
-			if (head->command == argument)
-			{
-				ft_putstr_fd("Error: env don't need argument\n", 2);
-				return (EXIT_FAILURE);
-			}
-			else if (head->command == option)
-			{
-				ft_putstr_fd("Error: env don't need option\n", 2);
-				return (EXIT_FAILURE);
-			}
-		}
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	ft_valid_echo(t_instru *current)
-{
-	t_token	*head;
-
-	head = current->start;
-	if (head && head->command == echo)
-	{
 		if (head == current->end)
 			return (EXIT_SUCCESS);
 		head = head->next;
-		if (head && head->command == option)
+		if (head)
 		{
-			if (ft_strncmp(head->token, "-n", 2) != 0)
+			if (!(head->command >= e_pipe
+					&& head->command <= append_redirect_output))
 			{
-				ft_putstr_fd("Error: wrong echo option\n", 2);
+				ft_putstr_fd("Error: env don't need arg\n", 2);
 				return (EXIT_FAILURE);
 			}
 		}
-		else
-			ft_change_argument(current);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -71,10 +45,17 @@ int	ft_valid_cd(t_instru *current)
 		if (head == current->end)
 			return (EXIT_SUCCESS);
 		head = head->next;
-		if (head && head->command == option)
+		if (head)
 		{
-			ft_putstr_fd("Error: cd don't need option\n", 2);
-			return (EXIT_FAILURE);
+			if (head->command == option)
+				return (EXIT_FAILURE);
+			if (head->next)
+			{
+				head = head->next;
+				if (!(head->command >= e_pipe && head->command <= append_redirect_output))
+					ft_putstr_fd("Error: cd too many arg\n", 2);
+				return (EXIT_FAILURE);
+			}
 		}
 	}
 	return (EXIT_SUCCESS);
@@ -95,8 +76,6 @@ int	ft_valid_export(t_instru *current)
 			ft_putstr_fd("Error: export don't need option\n", 2);
 			return (EXIT_FAILURE);
 		}
-		else
-			ft_change_argument(current);
 	}
 	return (EXIT_SUCCESS);
 }
