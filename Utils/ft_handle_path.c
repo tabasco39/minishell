@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 09:12:09 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/09/02 09:58:59 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/09 09:55:33 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,15 @@ char	**ft_get_all_path(t_list *env, char *line)
 char	*ft_verify_exec_cmd(char **paths)
 {
 	int		i;
-	//char	*sl[3];
+	char	*result;
 	i = 0;
-	// sl[0] = "cat";
-	// sl[1] = "debug.c";
-	// sl[2] = NULL;
 	while (paths[i] != NULL)
 	{
 		if (access(paths[i], X_OK) == 0)
 		{
-			//ft_exec_sys_func(paths[i], sl, envp);
-			//ft_free_all(paths);
-			return (paths[i]);
+			result = ft_strdup_shell(paths[i]);
+			ft_free_all(paths);
+			return (result);
 		}
 		i++;
 	}

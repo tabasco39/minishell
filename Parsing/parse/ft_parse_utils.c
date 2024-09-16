@@ -20,9 +20,9 @@ void	ft_parse_arg(t_token *current, t_token *nxt)
 			return ;
 		else
 		{
-			if (nxt && nxt->command == option)
+			if (nxt->command == option)
 				nxt = nxt->next;
-			while (nxt && (nxt->command == not_comm || nxt->command == option))
+			while (nxt && ((nxt->command == not_comm) || (nxt->command == option)))
 			{
 				nxt->command = argument;
 				nxt = nxt->next;
@@ -41,85 +41,97 @@ void	ft_redirection(t_token *current, t_token *nxt)
 	}
 }
 
-static int	ft_replace_aux(char *result, int *j, t_list *env, char *to_replace)
+static int	ft_replace_word_aux(char *result, int *j, char *line, t_list *env)
 {
-	int		i;
-	char	*search;
+	int		end;
+	int		start;
 	char	*value;
+	char	*env_variable;
 
-	i = 0;
-	while (to_replace[i] == '$')
-		i++;
-	while (ft_isalpha(to_replace[i]) != 0)
-		i++;
-	search = ft_substr(to_replace, 0, i);
-	value = ft_getvar(env, search + 1);
-	if (value == NULL)
-		result[*j] = ' ';
-	else
+	end = 1;
+	while (ft_isalpha(line[end]) != 0 || line[end] == '_')
+		end++;
+	env_variable = ft_substr(line, 1, end - 1);
+	value = ft_getvar(env, env_variable);
+	if (value)
 	{
-		value += (ft_find_char(value, '=') + 1);
-		while (*value != '\0')
+		start = ft_find_char(value, '=');
+		while (value[++start] != '\0')
 		{
-			result[*j] = *value;
+			result[*j] = value[start];
 			(*j)++;
-			value++;
 		}
 	}
-	free(search);
-	return (i);
+	else
+		result[*j] = '\n';
+	(*j)--;
+	end--;
+	free(env_variable);
+	return (end);
 }
 
-static char	*ft_replace_word(char *to_replace, t_list *env, int start)
+static char	*ft_replace_word_new(char *line, t_list *env)
 {
-	char	*result;
 	int		i;
 	int		j;
+	char	*result;
 
-	result = ft_calloc(ft_strlen(to_replace) + 1000, sizeof(char));
-	if (!result || !to_replace || !env)
-	{
-		free(to_replace);
-		return (NULL);
-	}
 	i = 0;
 	j = 0;
-	while (to_replace[i] != '\0')
+	result = malloc(sizeof(char) * 1000);
+	if (!result)
+		return (NULL);
+	while (line[i] != '\0')
 	{
-		if (i == start)
-			i += ft_replace_aux(result, &j, env, to_replace + i);
-		result[j] = to_replace[i];
+		if (line[i] == (char)36)
+			i += ft_replace_word_aux(result, &j, line + i, env);
+		else
+			result[j] = line[i];
 		j++;
-		if (to_replace[i] != '\0')
-			i++;
+		i++;
 	}
-	free(to_replace);
+	result[j] = '\0';
+	free(line);
 	return (result);
+}
+
+static int	ft_is_char_pair(char *line, char quote)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != quote)
+		i++;
+	while (line[i] == quote)
+		i++;
+	return (i);
 }
 
 void	ft_parse_dollar(t_token *current, t_list *env)
 {
 	char	first_quote;
-	int		pos_char;
+	int		nb_quote;
 
+	if (ft_find_char(current->token, '$') == -1)
+		return ;
 	first_quote = ft_first_quote(current->token, 34, 39);
-	pos_char = ft_find_char(current->token, '$');
 	if (first_quote == -1)
 	{
-		if (current->command == dollar && ft_strlen(current->token) != 1)
-		{
-			current->token = ft_replace_word(current->token, env, pos_char);
-			if (current->is_head == 1)
-				current->command = not_comm;
-			else
-				current->command = argument;
-		}
+		current->token = ft_replace_word_new(current->token, env);
+		if (current->is_head == 1)
+			current->command = not_comm;
+		else
+			current->command = argument;
 	}
 	else
 	{
 		if (first_quote == 39)
-			return ;
+		{
+			nb_quote = ft_is_char_pair(current->token, first_quote);
+			if (nb_quote % 2 == 0)
+				current->token = ft_replace_word_new(current->token, env);
+		}
 		else
-			current->token = ft_replace_word(current->token, env, pos_char);
+			current->token = ft_replace_word_new(current->token, env);
 	}
 }

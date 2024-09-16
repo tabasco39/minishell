@@ -19,11 +19,17 @@ char	*ft_readline(t_list *env, char *prompt)
 	int		end;
 
 	if (prompt)
+	{
+		ft_putstr_fd("\x1b[32m", 1);	//green color
 		ft_putstr_fd(prompt, 1);
+		ft_putstr_fd("\x1b[0m", 1);
+	}
 	else
 	{
+		ft_putstr_fd("\x1b[32m", 1);	//green color
 		ft_putstr_fd(ft_getvar(env, "USER") + 5, 1);
 		ft_putstr_fd("@minishell$ ", 1);
+		ft_putstr_fd("\x1b[0m", 1);
 	}
 	buff = malloc(sizeof(char) * 10000);
 	if (!buff)

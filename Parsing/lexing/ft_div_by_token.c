@@ -74,6 +74,33 @@ int	ft_should_delete(char *line)
 	}
 	return (1);
 }
+char	*ft_clean_quote(char *line)
+{
+	int		i;
+	char	simple_quote;
+	char	double_quote;
+	char	*result;
+
+	i = 0;
+	simple_quote = (char)39;
+	double_quote = (char)34;
+	result = NULL;
+	while (line[i] != '\0')
+	{
+		if (line[i] == simple_quote && line[i + 1] == simple_quote)
+		{
+			result = ft_del_quote(line, &simple_quote);
+			return (result);
+		}
+		else if (line[i] == double_quote && line[i + 1] == double_quote)
+		{
+			result = ft_del_quote(line, &double_quote);
+			return (result);
+		}
+		i++;
+	}
+	return (line);
+}
 
 void	ft_div_by_token(char *line, t_token **head)
 {
@@ -101,7 +128,8 @@ void	ft_div_by_token(char *line, t_token **head)
 		else
 			ft_add_token(head, ft_create_token(split[i]));
 		free(newline);
+		free(split[i]);
 		i++;
 	}
-	ft_free_all(split);
+	free(split);
 }

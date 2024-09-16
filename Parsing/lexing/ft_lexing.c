@@ -51,6 +51,8 @@ int	ft_check_cmd(char *token)
 		return (redirect_output);
 	if (ft_strncmp(token, "<", 1) == 0)
 		return (redirect_input);
+	/*if (ft_strncmp(token, "history", 7) == 0)
+		return (e_history);*/
 	res = ft_check_cmd_aux(token);
 	return (res);
 }

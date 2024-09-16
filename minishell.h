@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/02 10:26:11 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/13 07:30:47 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "./libft/libft.h"
+# include "./get_next_line/get_next_line.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -22,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <time.h>
 
 /*
  *============ Compile tgetent	: -ltermcap
@@ -67,7 +69,8 @@ typedef enum e_command
 	delimiter_redirect_input, // 14	<<
 	append_redirect_output,   // 15	>>
 	not_comm,                 // 16
-	in_sys                    // 17
+	in_sys,                    // 17
+	e_history					//18
 }							t_comm;
 
 typedef struct s_token
@@ -89,6 +92,12 @@ typedef struct s_instruction
 	struct s_instruction	*prev;
 }							t_instru;
 
+typedef struct s_read_line
+{
+	char			*result;
+	unsigned long	cur_pos;
+}	t_read_line;
+
 typedef struct s_var
 {
 	char					*line;
@@ -98,6 +107,7 @@ typedef struct s_var
 	t_instru				*instru;
 	t_token					*token;
 }							t_var;
+
 
 int							ft_check_cmd(char *token);
 int							ft_export(t_var *var, char *to_add);
@@ -109,7 +119,6 @@ char						*ft_verify_exec_cmd(char **paths);
 char						*ft_pwd(void);
 char						*ft_strdup_shell(char *s);
 char						*ft_getvar(t_list *envp, char *var);
-char						*ft_readline(t_list *env, char *prompt);
 char						*ft_strjoin_shell(char *first, char *second);
 char						*ft_env_variable(t_list *envp, char *to_find);
 
@@ -120,7 +129,7 @@ char						**ft_split_shell(char const *s, char c);
 void						ft_exit(t_var *var, int end);
 void						ft_free_all(char **split);
 void						ft_lstclear_shell(t_token **head);
-void						ft_echo(t_list *env, char *to_print);
+void						ft_echo(char *to_print, char option);
 void						ft_div_by_token(char *line, t_token **head);
 void						ft_create_envp(t_list **all_env, char **envp);
 void						ft_add_token(t_token **head, t_token *new_elem);
@@ -168,6 +177,13 @@ void	ft_command_setup(t_token **head);
 
 /*================== Clear =======================*/
 void	ft_lstclear_instru(t_instru **instru, t_token **head);
+
+/*===================== test_readline =============================*/
+char	*ft_readline(t_list *env, char *prompt);
+char	*ft_readline_de_moi(char *prompt);
+
+/*==================== HISTORY ====================*/
+void	ft_add_history(char *to_add);
 
 /*====================== Debug =========================*/
 void						ft_debug(t_var *var);

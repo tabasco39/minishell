@@ -6,7 +6,7 @@
 #    By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/07 10:34:59 by aelison           #+#    #+#              #
-#    Updated: 2024/08/29 15:47:05 by aelison          ###   ########.fr        #
+#    Updated: 2024/09/11 06:33:08 by aelison          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,11 @@ LIB = ./libft/libft.a
 
 SRC = ft_program.c \
 	  test_readline.c \
+	  moi.c \
+	  history.c \
 	  debug.c \
+	  get_next_line/get_next_line.c \
+  	  get_next_line/get_next_line_utils.c \
 	  Utils/ft_utils.c \
 	  Utils/ft_clear.c \
 	  Utils/ft_utils_two.c \

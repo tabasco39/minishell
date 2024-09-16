@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 11:38:32 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/21 10:06:55 by aelison          ###   ########.fr       */
+/*   Updated: 2024/09/16 09:08:04 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	main(int argc, char **argv, char **envp)
 	var.tab_env = ft_new_envp(var.env);
 	while (1)
 	{
-		var.line = ft_readline(var.env, NULL);
+		var.line = ft_readline_de_moi("Minishell> ");
+		ft_add_history(var.line);
 		ft_debug(&var);
 	}
 	return (0);

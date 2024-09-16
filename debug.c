@@ -6,11 +6,56 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 10:55:02 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/02 10:26:21 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/16 09:07:37 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+void	ft_display_command(t_comm cmd)
+{
+	printf("t_comm = ");
+	if (cmd == argument)
+		printf("argument");
+	else if (cmd == option)
+		printf("option");
+	else if (cmd == env)
+		printf("env");
+	else if (cmd == pwd)
+		printf("pwd");
+	else if (cmd == cd)
+		printf("cd");
+	else if (cmd == echo)
+		printf("echo");
+	else if (cmd == unset)
+		printf("unset");
+	else if (cmd == dollar)
+		printf("dollar");
+	else if (cmd == question)
+		printf("question");
+	else if (cmd == e_export)
+		printf("export");
+	else if (cmd == e_exit)
+		printf("exit");
+	else if (cmd == e_pipe)
+		printf("pipe");
+	else if (cmd == redirect_input)
+		printf("redirect_input : <");
+	else if (cmd == redirect_output)
+		printf("redirect_input : >");
+	else if (cmd == delimiter_redirect_input)
+		printf("delimiter_redir_input : <<");
+	else if (cmd == append_redirect_output)
+		printf("append_redir_output : >>");
+	else if (cmd == not_comm)
+		printf("not_comm");
+	else if (cmd == in_sys)
+		printf("in_sys");
+	else if (cmd == e_history)
+		printf("history");
+	printf("\n\n");
+}
 
 void	ft_display_token(t_token *token)
 {
@@ -24,7 +69,7 @@ void	ft_display_token(t_token *token)
 		printf("token = %s\t", token->token);
 		printf("is_head = %d\t", token->is_head);
 		printf("is_end = %d\t", token->is_end);
-		printf("t_comm = %d\n\n", token->command);
+		ft_display_command(token->command);
 		i++;
 		token = token->next;
 	}
@@ -70,22 +115,12 @@ void	ft_display_env(t_list **env)
 
 void	ft_debug(t_var *var)
 {
+	char	*test;
+
 	var->path = ft_get_all_path(var->env, var->line);
-	ft_verify_exec_cmd(var->path);
+	test = ft_verify_exec_cmd(var->path);
 	if (ft_strncmp(var->line, "exit", 4) == 0)
 		ft_exit(var, 0);
-	/*else if (ft_strncmp(var->line, "unset", 5) == 0)
-		ft_unset_envp(var, var->line + 6);
-	else if (ft_strncmp(var->line, "env", 3) == 0)
-	{
-		ft_display_env(&var->env);
-		ft_disp_dchar(var->tab_env);
-	}
-	else if (ft_strncmp(var->line, "export", 6) == 0)
-		ft_export(var, var->line + 7);
-	*/
-	//else
-	//{
 	ft_div_by_token(var->line, &var->token);
 	ft_command_setup(&var->token);
 	ft_parse(var->token, var->env);
@@ -95,5 +130,6 @@ void	ft_debug(t_var *var)
 	ft_exec_sys_func(var->instru, var);
 	ft_lstclear_instru(&var->instru, &var->token);
 	var->token = NULL;
+	free(test);
 	free(var->line);
 }
