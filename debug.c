@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 10:55:02 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/16 09:07:37 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:01:09 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ft_debug(t_var *var)
 	ft_parse(var->token, var->env);
 	ft_display_token(var->token);
 	var->instru = ft_set_instru(var->token);
-	ft_cmd_validation(var);
+	//ft_cmd_validation(var);
 	ft_exec_sys_func(var->instru, var);
 	ft_lstclear_instru(&var->instru, &var->token);
 	var->token = NULL;
