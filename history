@@ -1,359 +1,72 @@
-ls > test > test1 > test2 | cat test2
-ls
-st
+cat << eof
+
+cat << eof
+cat << eof | cat << end
+cat << eof | cat << end
+cat << eof
+cat << eof
+cat << eof | cat << end
+cat << eof | cat << eon | cat << he
+cat << eof << end | cat << hi
+cat << nie << moi << haha << fin
+clear
+cat << nie | cat << boul | cat <<readline | cat << finiiii
+clear
+env
+exit
+ls > test.txt << eof
+
+la
+ls -o
+ls -p
+ls -nie
+ls --nie | echo bonjour
+
+ls --nie | echo bonjour
+ls --nie | echo bonjour
+ls -nie | echo hi
+ls -nie | echo ki
+ls -nie | echo hi
+ls -nie | echo bonjour
+clear
+ls -nie | echo hi
+ls -nie | echo bonjour
+ls -nie | echo bonur
+ls -nie
+ls -nie | echo bonjour
+ls -nie
+echo bonjour > test
 cat test
 clear
-ls > test > test1 > test2
-cat test2
-ls
+chmod 000 test
+clear
+ls -l
+clear
+echo nie > test
 cat test
-cat test1
-clear
-cat << eof << end
-cat << eof << end
-cat << eof | cat << end
-clear
-exit
-cat << eof << end
-cat << eof << end
-cat << eof << end
+
+
+
+
+
+echo > test nie
+ls -nie
+ls -nie | echo hi
+make
+ls -nie
+ls -nie
+ls -nie
 clear
 make
-clea
-make
-cldar
-cat << eof << end
-cat << eof << end
-cat << eof << end
-cat << eof << end
-cat << eof
-cat << eof
-cat << eof
-cat << eof << end
-cat << eof << end
-cat << eof << end
-cat << eof << end
-cat << eof <<  end
-cat << eof << end
-cat << eof << end
-cat << eof << end 
-make clean
-clear
-cat << eof << end
-make clean
-clear
-cat << eof << end
-cat << eof << end
-clear
-make
-clear
-cat eof
-cat << eof << end
-clear
-cat << eof | cat end
-cat test | cat << end
-cat << test | cat << end
-cat << eof
-make clean
-clear
-cat << eof << end
-clear
-ls
-clear
-ls | grep m
-clear
-clear
-ls | grep m | cat akefile
-ls | grep m | cat Makefile
-clear
-ls & ls
-clear
-ls
-ls -a
-ls -a | grep l
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-cat << eof | cat << end
-cat << eof | cat << emd
-clear
-make
-clear
-cat << eof | cat << end
-cat << eof | cat << end
-clear
-make
-cat << eof | cat << end
-cat << eof | cat << end
-cat << eof | cat << end
-cat << eof | cat << end
-
-cat << eof | ls
-cat << eof | cat << end
-cat << eof | cat << end
-cat << eof | cat << end
-cat << eof << end
-cat << eof | cat << end
-cat << eof | cat << end
-cat << eof << end
-cat << eof << end
-cat << eof | cat << end
-cat << eof | cat << end << c << x
-exit
-cat << eof | cat << end << c << x
-clear
-exit
-cat << eof << end | cat << x << c
-n
-cat << eof << end | cat << finish << ouchee
-cat << eof | cat << end
-cat << eof << end | cat << c << x
-cat << eof << end | cat << x << c
-cat << eof << end | cat << t << y
-cat << eof << end | cat << t << y
-cat << eof << end | cat << t << y
-cat << eof << end | cat t << y
-cat << eof << end | cat << t <<y
-cat << eof << end | cat t << x
-ls > test > test1 > test2 | cat Makefile > test3 | cat < test3
-
-ls > test > test1 | echo bonjour > test2 | cat test2
-ls > test > test1 | echo bonjour > test2 | cat test2
-ls > test > test1 | echo bonjour > test 
-cat test
-ls > test > test1 | echo bonjour > test3
-cat test3
-ls > test > test1 > test2 | echo test > test3 > test4
-ls
-ls > test > test1 > test2 | echo hello > test3 > test4
-ls
-ls > test > test1 > test2 | echo hi > test3 > test4 | cat test4
-clear
-cat << eof << end | cat << t << y
-cat << eof << end | cat << t << y
-exit
-la | echo hi
-cat << eof | cat << end
-cat << eof | cat << end
-cat << eof << end
-cat << eof | cat << end
-exit
-cat << eof | cat << end
-exit
-cat << eof | cat << eof
-
-<< eof cat | << eof cat
-<< eof cat | << eof cat
-cat << eof | cat << end
-cat << eof | cat << end
-cat << eof | cat << eof
-cat << eof | cat << end
-clear
-make
-clear
-cat << test | cat << eof
-clear
-cat << eof | cat < end
-cat << eof | cat << end
-cat << eof | cat << end
-clear
-cat << eof | cat << end
-ls
-ls
-cat Makefile
-cat << eof | cat << end
-ls
-ls
-ls
-cat << eof
-ls
-cat << eof | cat << end
-ls
-cat << eof | cat << end
-cat << eof | cat << end
-cat | echo hi
-cat << eof | cat << end
-end
-ls | grep m
-cat << eof | cat << end
-make
-clear
-./min	
-cat << eof | cat << end
-cat << eof  | cat << end
-ls -a | cat << eof
-ls -a | cat << eof
-ls -a | cat << eof
-clear
-ls | <<eof cat -e
-ls | cat << eof -e
-ls | << eof cat -e
-ls | cat -e << eof
-clear
-<< eof | cat
-ls | cat -e << eof
-ls | << eof cat -e
-ls | cat -e << eof
-clear
-make
-clear
-ls | cat << eof -e
-make clean
+ls -nie
+ls -nie
+ls -nie
+
+ls -nie
+ls -nie
+ls -nie
+ls -nie
+ls -nie
+ls -nie
+ls -nie
+z

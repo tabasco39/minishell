@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/09/20 15:58:29 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:54:37 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,14 @@ void	ft_exec_sys_func(t_instru *instruction, t_var *var)
 	int			start;
 	int			end;
 	int			input_fd;
+	int			here_doc_fd[2];
+	int			error_fd;
+	// int			error_pid[2];
 	int			i;
+	int			boolean;
 
+	boolean = 0;
+	target = NULL;
 	input_fd = STDIN_FILENO;
 	start = 0;
 	i = 0;
@@ -108,16 +114,17 @@ void	ft_exec_sys_func(t_instru *instruction, t_var *var)
 	tmp = instruction;
 	path = NULL;
 	here_doc_result = ft_strdup_shell("");
-	target = ft_find_cmd(instruction->start, delimiter_redirect_input);
+	// pipe(error_pid);
+	error_fd = open("error.txt", O_RDWR);
+	if (instruction)
+		target = ft_find_cmd(instruction->start, delimiter_redirect_input);
 	if (target)
 	{
 		while (target)
 		{
 			if (target->command == delimiter_redirect_input)
 			{
-
 				char 	buffer[1024];
-				int		here_doc_fd[2];
 				pipe(here_doc_fd);
 				while (1)
 				{
@@ -145,13 +152,8 @@ void	ft_exec_sys_func(t_instru *instruction, t_var *var)
 					free(here_doc_result);
 					here_doc_result = ft_strdup_shell("");
 				}
-				else if(ft_find_cmd(target->next, delimiter_redirect_input) == NULL)
-				{
-					ft_putstr_fd(here_doc_result, here_doc_fd[1]);
-					close(here_doc_fd[1]);
-					dup2(here_doc_fd[0], STDIN_FILENO);
-					close(here_doc_fd[0]);
-				}
+				ft_putstr_fd(here_doc_result, here_doc_fd[1]);
+				close(here_doc_fd[1]);
 			}
 			target = target->next;
 		}	
@@ -165,6 +167,7 @@ void	ft_exec_sys_func(t_instru *instruction, t_var *var)
 		target = ft_find_cmd_token(tmp);
 		if (pid == 0)
 		{
+			dup2(error_fd, STDERR_FILENO);
 			if (target != NULL)
 			{
 				while (target->is_end != 1)
@@ -186,6 +189,11 @@ void	ft_exec_sys_func(t_instru *instruction, t_var *var)
 						input_fd = open(target->next->token,O_RDONLY);
 						dup2(input_fd, STDIN_FILENO);
 					}
+					if (target->command == delimiter_redirect_input)
+					{
+						dup2(here_doc_fd[0], STDIN_FILENO);
+						close(here_doc_fd[0]);
+					}
 					target = target->next;
 				}
 			}
@@ -205,6 +213,7 @@ void	ft_exec_sys_func(t_instru *instruction, t_var *var)
 			path	= ft_verify_exec_cmd(all_path);
 			execve(path, params, var->tab_env);
 		}
+		waitpid(pid, NULL, 0);
 		if (i != start)
 			close(input_fd);
 		if (i != end)
@@ -212,13 +221,18 @@ void	ft_exec_sys_func(t_instru *instruction, t_var *var)
 			close(pipefd[1]);
 			input_fd = pipefd[0];
 		}
-		waitpid(pid, NULL, 0);
 		i++;
 		tmp = tmp->next;
 	}
 	free(here_doc_result);
 	tmp = instruction;
-	//waitpid(pid,NULL,0);
+	char buffer[1024];
+	int bytes = read(error_fd, buffer, 1023);
+	buffer[bytes] = '\0';
+	// printf("here  : %d\n", error_fd);
+	printf("hkdshfkshdf");
+	printf("buffer: %s", buffer);
+	close (error_fd);
 	while (tmp)
 	{
 		waitpid(pid, NULL, 0);
