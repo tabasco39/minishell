@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_validation_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/21 15:13:04 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/08/28 07:50:45 by aelison          ###   ########.fr       */
+/*   Created: 2024/09/19 07:04:07 by aelison           #+#    #+#             */
+/*   Updated: 2024/09/19 07:04:09 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

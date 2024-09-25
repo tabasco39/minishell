@@ -6,12 +6,11 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 10:55:02 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/20 15:01:09 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/25 08:33:24 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	ft_display_command(t_comm cmd)
 {
@@ -52,8 +51,6 @@ void	ft_display_command(t_comm cmd)
 		printf("not_comm");
 	else if (cmd == in_sys)
 		printf("in_sys");
-	else if (cmd == e_history)
-		printf("history");
 	printf("\n\n");
 }
 

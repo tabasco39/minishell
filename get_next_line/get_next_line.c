@@ -6,7 +6,7 @@
 /*   By: aelison <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 07:29:48 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/21 06:50:49 by aelison          ###   ########.fr       */
+/*   Updated: 2024/09/17 07:11:42 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@ char	*get_line(char *str)
 
 	ind = ft_end_of_line(str);
 	if (ind == -1)
+	{
 		res = ft_strdup_gnl(str);
+		if (res[0] == '\0')
+		{
+			free(res);
+			res = NULL;
+		}
+	}
 	else
 		res = ft_substr_gnl(str, ind);
 	return (res);
@@ -37,7 +44,14 @@ char	*get_remains(char *str)
 		return (NULL);
 	}
 	else
+	{
 		res = ft_strdup_gnl(str + ind + 1);
+		if (res[0] == '\0')
+		{
+			free(res);
+			res = NULL;
+		}
+	}
 	free(str);
 	return (res);
 }

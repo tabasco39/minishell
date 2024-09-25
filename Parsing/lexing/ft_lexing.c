@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:00:50 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/29 13:41:42 by aelison          ###   ########.fr       */
+/*   Updated: 2024/09/25 07:15:49 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	ft_check_cmd(char *token)
 		return (redirect_output);
 	if (ft_strncmp(token, "<", 1) == 0)
 		return (redirect_input);
-	/*if (ft_strncmp(token, "history", 7) == 0)
-		return (e_history);*/
 	res = ft_check_cmd_aux(token);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:14:33 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/09 10:02:38 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/23 08:40:39 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_parse(t_token *token, t_list *env)
 		{
 			all_path = ft_get_all_path(env, current->token);
 			tmp = ft_verify_exec_cmd(all_path);
-			if (tmp  != NULL)
+			if (tmp != NULL)
 				current->command = in_sys;
 			free(tmp);
 		}

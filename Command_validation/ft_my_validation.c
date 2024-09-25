@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 10:29:20 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/08/23 10:42:46 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/25 06:52:39 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,8 @@ int	ft_valid_pwd(t_instru *instruction)
 	if (instruction->start->command == pwd)
 	{
 		current = current->next;
-		if (current)
-		{
-			if (!(current->command >= e_pipe
-					&& current->command <= append_redirect_output))
-			{
-				ft_putstr_fd("pwd: too many arguments\n", 2);
-				return (EXIT_FAILURE);
-			}
-		}
+		if (current && current->command == option)
+			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -39,10 +32,10 @@ int	ft_valid_unset(t_instru *instruction)
 	{
 		if (instruction->start == instruction->end)
 			return (EXIT_SUCCESS);
-		ft_change_argument(instruction);
-		if (!(instruction->start->next))
+		if (instruction->start->next
+			&& instruction->start->next->command == option)
 		{
-			ft_putstr_fd("unset: not enough arguments\n", 2);
+			ft_putstr_fd("unset: no option need\n", 2);
 			return (EXIT_FAILURE);
 		}
 	}
@@ -59,16 +52,8 @@ int	ft_valid_exit(t_instru *instruction)
 		current = current->next;
 		if (instruction->start == instruction->end)
 			return (EXIT_SUCCESS);
-		ft_change_argument(instruction);
-		if (current && current->command != dollar && current->next)
-		{
-			if (!(current->next->command >= e_pipe
-					&& current->next->command <= append_redirect_output))
-			{
-				ft_putendl_fd("exit : too many argument", 2);
-				return (EXIT_FAILURE);
-			}
-		}
+		if (current && current->command == option)
+			return (EXIT_FAILURE);
 		if (ft_valid_exit_util(current->token) == 1)
 			return (2);
 	}

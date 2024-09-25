@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_valid_first.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
+/*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/21 08:36:51 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/29 15:38:33 by aelison          ###   ########.fr       */
+/*   Created: 2024/09/19 07:04:21 by aelison           #+#    #+#             */
+/*   Updated: 2024/09/25 06:50:23 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	ft_valid_cd(t_instru *current)
 			if (head->next)
 			{
 				head = head->next;
-				if (!(head->command >= e_pipe && head->command <= append_redirect_output))
+				if (!(head->command >= e_pipe
+						&& head->command <= append_redirect_output))
 					ft_putstr_fd("Error: cd too many arg\n", 2);
 				return (EXIT_FAILURE);
 			}
