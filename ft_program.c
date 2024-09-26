@@ -6,22 +6,11 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 11:38:32 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/25 11:03:44 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/25 08:02:21 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	my_handler(int signal)
-{
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("\0", 0);
-		rl_redisplay();
-	}
-}
 
 void	ft_init_var(t_var *all, char **envp)
 {
@@ -35,9 +24,7 @@ void	ft_init_var(t_var *all, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_var				all_var;
-	struct sigaction	act;
-	struct sigaction	ignore;
+	t_var	all_var;
 
 	if (argc != 1 && argv && envp)
 	{
@@ -45,18 +32,9 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	}
 	ft_init_var(&all_var, envp);
-	ignore.sa_handler = SIG_IGN;
-	ignore.sa_flags = SA_RESTART;
-	act.sa_handler = my_handler;
-	act.sa_flags = SA_RESTART;
-	sigemptyset(&act.sa_mask);
 	while (1)
 	{
-		sigaction(SIGINT, &act, NULL);
-		sigaction(SIGQUIT, &ignore, NULL);
 		all_var.line = readline(GREEN"Minishell$> "RESET);
-		if (all_var.line == NULL)
-			ft_exit(&all_var, 0);
 		add_history(all_var.line);
 		ft_debug(&all_var);
 	}
