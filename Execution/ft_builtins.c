@@ -6,25 +6,26 @@
 /*   By: aelison <aelison@student.42antananarivo.m  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 06:59:12 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/25 07:07:10 by aelison          ###   ########.fr       */
+/*   Updated: 2024/09/26 12:54:39 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/*
 static void	ft_echo_aux(char *to_print, int quote, int nb_quote)
 {
 	int	i;
 
 	i = 0;
+	nb_quote = 1;
+	while (to_print[i] != '\0')
+	{
+		if (to_print[i] != quote)
+			ft_putchar_fd(to_print[i], 1);
+		i++;
+	}
 	if (nb_quote % 2 == 0 || nb_quote == 1)
 	{
-		while (to_print[i] != '\0')
-		{
-			if (to_print[i] != quote)
-				ft_putchar_fd(to_print[i], 1);
-			i++;
-		}
 	}
 	else if (nb_quote % 2 != 0)
 	{
@@ -39,19 +40,28 @@ static void	ft_echo_aux(char *to_print, int quote, int nb_quote)
 		ft_putchar_fd(quote, 1);
 	}
 }
-
+*/
 void	ft_echo(char *to_print, char option)
 {
 	int		quote;
-	int		nb_quote;
+	int		i;
+	//	int		nb_quote;
 
+	i = 0;
 	quote = ft_first_quote(to_print, 34, 39);
 	if (quote == '\0' && to_print)
 		ft_putstr_fd(to_print, 1);
 	else if (quote != '\0' && to_print)
 	{
-		nb_quote = ft_is_char_pair(to_print, quote);
-		ft_echo_aux(to_print, quote, nb_quote);
+		while (to_print[i] != '\0')
+		{
+			if (to_print[i] != quote)
+				ft_putchar_fd(to_print[i], 1);
+			i++;
+		}
+
+		//nb_quote = ft_is_char_pair(to_print, quote);
+		//ft_echo_aux(to_print, quote, nb_quote);
 	}
 	if (option == '\n')
 		ft_putchar_fd('\n', 1);

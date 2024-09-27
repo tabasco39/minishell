@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:14:33 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/23 08:40:39 by aelison          ###   ########.fr       */
+/*   Updated: 2024/09/27 12:30:39 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	ft_parse_aux(t_token *current, t_token *nxt)
 		current->is_end = 1;
 }
 
-void	ft_parse(t_token *token, t_list *env)
+void	ft_parse(t_var *var, t_token *token)
 {
 	t_token	*current;
 	char	**all_path;
@@ -54,10 +54,10 @@ void	ft_parse(t_token *token, t_list *env)
 	while (current)
 	{
 		ft_parse_aux(current, current->next);
-		ft_parse_dollar(current, env);
+		ft_parse_dollar_up(var, &current->token);
 		if (current->is_head == 1 && current->command == not_comm)
 		{
-			all_path = ft_get_all_path(env, current->token);
+			all_path = ft_get_all_path(var->env, current->token);
 			tmp = ft_verify_exec_cmd(all_path);
 			if (tmp != NULL)
 				current->command = in_sys;

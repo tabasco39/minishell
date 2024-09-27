@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:13:08 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/25 07:17:01 by aelison          ###   ########.fr       */
+/*   Updated: 2024/09/26 07:22:40 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ void	ft_redirection(t_token *current, t_token *nxt)
 int	ft_is_char_pair(char *line, char quote)
 {
 	int	i;
+	int	j;
 
+	j = 0;
 	i = 0;
 	while (line[i] != quote)
 		i++;
-	while (line[i] == quote)
-		i++;
-	return (i);
+	while (line[j + i] == quote)
+		j++;
+	return (j);
 }

@@ -51,7 +51,7 @@ OBJECTS_BONUS = $(SOURCES_BONUS:.c=.o)
 
 CFLAGS = -Wall -Werror -Wextra
 
-CC = gcc
+CC = cc
 
 all: $(NAME)
 

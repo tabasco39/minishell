@@ -6,7 +6,7 @@
 #    By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/07 10:34:59 by aelison           #+#    #+#              #
-#    Updated: 2024/09/25 07:00:47 by aelison          ###   ########.fr        #
+#    Updated: 2024/09/27 10:25:18 by aelison          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ NAME = minishell
 LIB = ./libft/libft.a
 
 SRC = ft_program.c \
-	  moi.c \
 	  debug.c \
 	  get_next_line/get_next_line.c \
   	  get_next_line/get_next_line_utils.c \
@@ -35,13 +34,15 @@ SRC = ft_program.c \
 	  Parsing/lexing/ft_div_by_token.c \
 	  Parsing/parse/ft_parse.c \
 	  Parsing/parse/ft_parse_utils.c \
-	  Parsing/parse/ft_parse_utils_two.c \
+	  Parsing/parse/ft_parse_dollar.c \
 	  Parsing/instruction/ft_set_instructions.c \
 	  Command_validation/ft_my_validation.c \
 	  Command_validation/ft_valid_first.c \
 	  Command_validation/ft_valid_second.c \
 	  Command_validation/ft_cmd_validation.c \
 	  Command_validation/ft_validation_utils.c 
+
+#Parsing/parse/ft_parse_utils_two.c \
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,10 +6,11 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 10:55:02 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/25 08:33:24 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:52:55 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
 
 void	ft_display_command(t_comm cmd)
@@ -97,15 +98,43 @@ void	ft_disp_dchar(char **str)
 	}
 }
 
-void	ft_display_env(t_list **env)
+void	ft_display_env(t_list **env, char *before)
 {
 	t_list	*tmp;
+	int		i;
+	char	*to_print;
+	int		count_char;
 
-	printf("\n================ Display t_list env ====================\n");
 	tmp = *env;
 	while (tmp)
 	{
-		printf("%s\n", (char *)tmp->content);
+		i = 0;
+		count_char = 0;
+		to_print = (char *)tmp->content;
+		if (before == NULL)
+		{
+			ft_putstr_fd("declare -x ", 1);
+			while (to_print[i] != '\0')
+			{
+				if (count_char == 1)
+				{
+					ft_putchar_fd((char)34, 1);
+					count_char++;
+				}
+				if (to_print[i] == '=')
+					count_char++;
+				ft_putchar_fd(to_print[i], 1);
+				i++;
+			}
+			if (count_char > 0)
+				ft_putchar_fd((char)34, 1);
+			ft_putchar_fd('\n', 1);
+		}
+		else
+		{
+			if (ft_find_char((char *)tmp->content, '=') != -1)
+				printf("%s\n", (char *)tmp->content);
+		}
 		tmp = tmp->next;
 	}
 }
@@ -120,11 +149,14 @@ void	ft_debug(t_var *var)
 		ft_exit(var, 0);
 	ft_div_by_token(var->line, &var->token);
 	ft_command_setup(&var->token);
-	ft_parse(var->token, var->env);
-	ft_display_token(var->token);
+	ft_parse(var, var->token);
 	var->instru = ft_set_instru(var->token);
 	//ft_cmd_validation(var);
-	ft_exec_sys_func(var->instru, var);
+
+	// if (var->token->command >= env && var->token->command <= e_exit)
+	// 	ft_exec_builtin(var, var->instru->start, var->instru->end);
+	//ft_display_token(var->token);
+	ft_exec(var->instru, var);
 	ft_lstclear_instru(&var->instru, &var->token);
 	var->token = NULL;
 	free(test);

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:33:37 by aelison           #+#    #+#             */
-/*   Updated: 2024/08/13 10:53:40 by aelison          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:06:51 by aelison          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*ft_getvar(t_list *env, char *var)
 {
 	size_t	var_len;
 
-	if (!env)
+	if (!env || !var)
 		return (NULL);
 	var_len = ft_strlen(var);
 	while (env)

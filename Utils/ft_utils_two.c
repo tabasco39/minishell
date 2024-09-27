@@ -94,20 +94,23 @@ static void	split_aux(char **result, char const *s, char c)
 		if (s[j] != c)
 		{
 			stock = j;
-			if (s[j] == 39)
-			{
-				j++;
-				while (s[j] != 39)
-					j++;
-			}
-			else if (s[j] == 34)
-			{
-				j++;
-				while (s[j] != 34)
-					j++;
-			}
 			while (s[j] != c && s[j] != '\0')
-				j = j + 1;
+			{
+				if (s[j] == 39)
+				{
+					j++;
+					while (s[j] != 39 && s[j])
+						j++;
+				}
+				else if (s[j] == 34)
+				{
+					j++;
+					while (s[j] != 34 && s[j])
+						j++;
+				}
+				else
+					j = j + 1;
+			}
 			result[i] = cpy(s, stock, j);
 			if (result[i] == NULL)
 			{

@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 09:12:09 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/09/09 09:55:33 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/27 10:03:14 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@
 	call exit function when exit
 */
 
-static int	ft_use_my_own_functions(char *line)
-{
-	char	*cmd;
+// static int	ft_use_my_own_functions(char *line)
+// {
+// 	char	*cmd;
 
-	if (line[0] == '/')
-		cmd = ft_strrchr(line, '/');
-	else
-		cmd = line;
-	if (ft_check_cmd(cmd) == 1 || ft_check_cmd(cmd) == 2
-		|| ft_check_cmd(cmd) == 3)
-		return (1);
-	if (ft_check_cmd(line) == 0 || ft_check_cmd(line) == 4
-		|| ft_check_cmd(line) == 5 || ft_check_cmd(line) == 8)
-		return (1);
-	return (0);
-}
+// 	if (line[0] == '/')
+// 		cmd = ft_strrchr(line, '/');
+// 	else
+// 		cmd = line;
+// 	if (ft_check_cmd(cmd) == 1 || ft_check_cmd(cmd) == 2
+// 		|| ft_check_cmd(cmd) == 3)
+// 		return (1);
+// 	if (ft_check_cmd(line) == 0 || ft_check_cmd(line) == 4
+// 		|| ft_check_cmd(line) == 5 || ft_check_cmd(line) == 8)
+// 		return (1);
+// 	return (0);
+// }
 
 char	**ft_get_all_path(t_list *env, char *line)
 {
@@ -43,8 +43,6 @@ char	**ft_get_all_path(t_list *env, char *line)
 	i = 0;
 	paths = ft_getvar(env, "PATH");
 	paths += 6;
-	if (ft_use_my_own_functions(line) == 1)
-		printf("command must execute our own function\n");
 	if (line[0] == '/')
 	{
 		paths_tab = malloc(sizeof(char *) * 2);
@@ -77,7 +75,6 @@ char	*ft_verify_exec_cmd(char **paths)
 		}
 		i++;
 	}
-	printf("command not found\n");
 	ft_free_all(paths);
 	return (NULL);
 }

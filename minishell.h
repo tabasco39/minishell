@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:02:09 by aelison           #+#    #+#             */
-/*   Updated: 2024/09/25 09:36:50 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:52:27 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <time.h>
 
@@ -93,6 +94,15 @@ typedef struct s_var
 	t_token					*token;
 }							t_var;
 
+typedef struct s_exec_iteration
+{
+	int	i;
+	int	start;
+	int	end;
+	int	here_doc_fd[2];
+	int	pipefd[2];
+}	t_exec;
+
 int			ft_cd(char *path);
 int			ft_check_cmd(char *token);
 int			ft_export(t_var *var, char *to_add);
@@ -115,15 +125,14 @@ void		ft_echo(char *to_print, char option);
 void		ft_div_by_token(char *line, t_token **head);
 void		ft_create_envp(t_list **all_env, char **envp);
 void		ft_add_token(t_token **head, t_token *new_elem);
-void		ft_exec_sys_func(t_instru *instruction, t_var *var);
 
 /*========== Parsing =================*/
 
+void	ft_parse_dollar_up(t_var *var, char **to_change);
 void		ft_redirection(t_token *current, t_token *nxt);
 void		ft_parse_no_arg(t_token *current, t_token *nxt);
 void		ft_parse_arg(t_token *current, t_token *nxt);
-void		ft_parse(t_token *token, t_list *env);
-void		ft_parse_dollar(t_token *current, t_list *env);
+void		ft_parse(t_var *var, t_token *current);
 char		*ft_del_quote(char *word, char *quote);
 char		*ft_get_first_quote(char *str);
 t_token		*ft_create_token(char *token);
@@ -151,7 +160,9 @@ void		ft_cmd_validation(t_var *all);
 void		ft_change_argument(t_instru *instruction);
 
 /*=================== Execution =============================*/
+void		ft_exec(t_instru *instruction, t_var *var);
 char		ft_first_quote(char *word, char first, char second);
+int			ft_exec_builtin(t_var *all_var, t_token *start, t_token *end);
 
 /*============= Token control ========================*/
 void		ft_move_nxt_to_head(t_token **head, t_token *target);
@@ -179,10 +190,15 @@ int			ft_is_char_pair(char *line, char quote);
 char		*ft_div_by_redirect(char *line, char *ref);
 void		ft_edit(char *line, int *i, char *result, int *j);
 void		ft_div_aux(char *result, char div, int *j, int nb);
+t_token 	*ft_find_cmd(t_token *start, t_comm to_find);
+
+
+/*====================== Env ====================*/
+void		ft_sort_env_list(t_list **result, char **tab_env);
 
 /*====================== Debug =========================*/
 void		ft_debug(t_var *var);
 void		ft_disp_dchar(char **str);
-void		ft_display_env(t_list **env);
+void		ft_display_env(t_list **env, char *before);
 void		ft_display_token(t_token *token);
 #endif

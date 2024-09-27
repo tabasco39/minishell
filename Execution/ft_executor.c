@@ -6,7 +6,7 @@
 /*   By: aranaivo <aranaivo@student.42antananarivo. +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 09:43:40 by aranaivo          #+#    #+#             */
-/*   Updated: 2024/09/25 10:15:12 by aranaivo         ###   ########.fr       */
+/*   Updated: 2024/09/27 13:20:06 by aranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static t_token *ft_find_cmd_token(t_instru *instru)
 	return (NULL);
 }
 
-static t_token *ft_find_cmd(t_token *start, t_comm to_find)
+t_token *ft_find_cmd(t_token *start, t_comm to_find)
 {
 	t_token *tmp;
 
@@ -87,7 +87,7 @@ static t_token *ft_find_cmd(t_token *start, t_comm to_find)
 	return (NULL);
 }
 
-void handle_redirection(t_token *target, int *input_fd, int *output_fd, int *has_redirection, int here_doc_fd)
+void ft_handle_redirection(t_token *target, int *input_fd, int *output_fd, int *has_redirection, int hd)
 {
 	*has_redirection = 1;
 	while (target->is_end != 1)
@@ -111,46 +111,29 @@ void handle_redirection(t_token *target, int *input_fd, int *output_fd, int *has
 		}
 		if (target->command == delimiter_redirect_input)
 		{
-			dup2(here_doc_fd, STDIN_FILENO);
-			close(here_doc_fd);
+			dup2(hd, STDIN_FILENO);
+			close(hd);
 		}
 		target = target->next;
 	}
 }
 
-void	ft_exec_sys_func(t_instru *instruction, t_var *var)
-{
-	t_instru	*tmp;
-	t_token		*target;
-	pid_t 		pid;
-	char		**params;
-	char		**all_path;
-	char		*path;
-	char		*here_doc_result;
-	int			start;
-	int			end;
-	int			input_fd;
-	int			here_doc_fd[2];
-	int			i;
 
-	target = NULL;
-	input_fd = STDIN_FILENO;
-	start = 0;
-	i = 0;
-	end = ft_count_special_char(var->token, e_pipe);
-	tmp = instruction;
-	path = NULL;
+void	ft_simul_heredoc(t_token *target, int hd, t_var *var)
+{
+	char	*here_doc_result;
+	char 	buffer[1024];
+	pid_t	pid;
+
 	here_doc_result = ft_strdup_shell("");
-	if (instruction)
-		target = ft_find_cmd(instruction->start, delimiter_redirect_input);
-	if (target)
+	pid = fork();
+	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		while (target)
 		{
 			if (target->command == delimiter_redirect_input)
 			{
-				char 	buffer[1024];
-				pipe(here_doc_fd);
 				while (1)
 				{
 					ft_putstr_fd(">", STDOUT_FILENO);
@@ -177,55 +160,126 @@ void	ft_exec_sys_func(t_instru *instruction, t_var *var)
 					free(here_doc_result);
 					here_doc_result = ft_strdup_shell("");
 				}
-				ft_putstr_fd(here_doc_result, here_doc_fd[1]);
-				close(here_doc_fd[1]);
 			}
 			target = target->next;
-		}	
+		}
+		ft_parse_dollar_up(var, &here_doc_result);
+		if (ft_find_char(here_doc_result, '\n') == -1 )
+			ft_putendl_fd(here_doc_result, hd);
+		else
+			ft_putstr_fd(here_doc_result, hd);	
+		exit(EXIT_SUCCESS);
 	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, NULL, 0);
+}
+
+void ft_exec_path(t_instru *tmp, t_var *var)
+{
+	char		**params;
+	char		**all_path;
+	char		*path;
+
+	if (var->token->command >= env && var->token->command <= e_exit)
+	{
+		ft_exec_builtin(var, var->instru->start, var->instru->end);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		params = ft_get_execve_parameter(tmp);
+		all_path = ft_get_all_path(var->env, params[0]);
+		path	= ft_verify_exec_cmd(all_path);
+		if (execve(path, params, var->tab_env) == -1)
+			exit(EXIT_FAILURE);
+	}
+}
+void ft_init_exec_current_instru(pid_t *pid, int *output_fd, int *has_redirection)
+{
+	*pid = fork();
+	*output_fd = -1;
+	*has_redirection = 0;
+}
+
+pid_t ft_exec_current_instru(t_instru *tmp, t_exec it, int input_fd, t_var *var)
+{
+	pid_t 		pid;
+	t_token		*target;
+	int 		output_fd;
+	int 		has_redirection;
+
+	ft_init_exec_current_instru(&pid, &output_fd, &has_redirection);
+	if (pid == 0)
+	{
+		target = ft_find_cmd_token(tmp);
+		if (it.i != it.start)
+		{
+			dup2(input_fd, STDIN_FILENO);
+			close(input_fd);
+		}
+		if (target != NULL)
+			ft_handle_redirection(target, &input_fd, &output_fd, &has_redirection, it.here_doc_fd[0]);
+		if (it.i != it.end && has_redirection == 0)
+		{
+			dup2(it.pipefd[1] , STDOUT_FILENO);
+			close(it.pipefd[0]);
+			close(it.pipefd[1]);
+		}
+		ft_exec_path(tmp, var);
+	}
+	return (pid);
+}
+
+pid_t ft_exec_all_instru(t_instru *tmp, t_exec iteration, int input_fd, t_var *var)
+{
+	pid_t pid;
+
 	while (tmp)
 	{
-		int	pipefd[2];
-		int output_fd;
-		if (i != end)
-			pipe(pipefd);
-		pid = fork();
-		output_fd = -1;
-		if (pid == 0)
-		{
-			int has_redirection = 0;
-			target = ft_find_cmd_token(tmp);
-			if (i != start)
-			{
-				dup2(input_fd, STDIN_FILENO);
-				close(input_fd);
-			}
-			if (target != NULL)
-				handle_redirection(target, &input_fd, &output_fd, &has_redirection, here_doc_fd[0]);
-			if (i != end && has_redirection == 0)
-			{
-				dup2(pipefd[1] , STDOUT_FILENO);
-				close(pipefd[0]);
-				close(pipefd[1]);
-			}
-			params = ft_get_execve_parameter(tmp);
-			all_path = ft_get_all_path(var->env, params[0]);
-			path	= ft_verify_exec_cmd(all_path);
-			execve(path, params, var->tab_env);
-		}
-		if (i != start)
+		if (iteration.i != iteration.end)
+			pipe(iteration.pipefd);
+		pid = ft_exec_current_instru(tmp, iteration, input_fd,var);
+		if (iteration.i != iteration.start)
 			close(input_fd);
-		if (i != end)
+		if (iteration.i != iteration.end)
 		{
-			close(pipefd[1]);
-			input_fd = pipefd[0];
+			close(iteration.pipefd[1]);
+			input_fd = iteration.pipefd[0];
 		}
-		i++;
+		iteration.i++;
 		tmp = tmp->next;
 	}
+	return (pid);
+}
+
+void ft_init_exec(t_exec *it, t_var *var)
+{
+	it->start = 0;
+	it->i = 0;
+	it->end = ft_count_special_char(var->token, e_pipe);
+}
+
+void	ft_exec(t_instru *tmp, t_var *var)
+{
+	t_token		*target;
+	t_exec		iteration;
+	int			input_fd;
+	pid_t 		pid;
+	
+	target = NULL;
+	input_fd = STDIN_FILENO;
+	pipe(iteration.here_doc_fd);
+	ft_init_exec(&iteration, var);
+	if (tmp)
+		target = ft_find_cmd(tmp->start, delimiter_redirect_input);
+	if (target)
+	{
+		ft_simul_heredoc(target, iteration.here_doc_fd[1], var);
+		close(iteration.here_doc_fd[1]);
+	}
+	pid = ft_exec_all_instru(tmp, iteration, input_fd, var);
 	waitpid(pid, NULL, 0);
-	free(here_doc_result);
-	tmp = instruction;
+	tmp = var->instru;
 	while (tmp)
 	{
 		wait(NULL);
